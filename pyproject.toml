@@ -1,0 +1,16 @@
+[project]
+name = "gn-monitor"
+version = "0.1.0"
+description = "Get uptime and other insights about your website"
+dependencies = [
+    "fastapi>=0.111.1",
+]
+readme = "README.md"
+requires-python = ">= 3.8"
+
+[tool.rye]
+managed = true
+virtual = true
+dev-dependencies = [
+    "ruff>=0.5.5",
+]
