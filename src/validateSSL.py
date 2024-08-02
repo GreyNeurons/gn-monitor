@@ -49,7 +49,7 @@ if isSSL:
     dtdiff = certdt - currdt
     print (f"Difference in current & SSL expiry dates is {dtdiff.days} days")
 
-    # If SSL exoiry date is less than 30 days away then send notification
+    # If SSL expiry date is less than 30 days away then send notification
     if dtdiff.days < 30:
         print("isNotify is TRUE")
     else:
