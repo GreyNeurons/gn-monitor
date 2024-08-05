@@ -3,6 +3,7 @@ from pydantic import HttpUrl
 from fastapi import FastAPI
 from lib.check_access import access_url
 
+
 app = FastAPI()
 
 
