@@ -19,7 +19,7 @@ try:
     else:
         print(f"The URL'{url}' is not using SSL")
 except requests.exceptions.SSLError:
-    print(f"SSL certificate has expired")
+    print("SSL certificate has expired")
 except requests.exceptions.ConnectionError:
     print(f"Cannot connect to '{url}'")
 except requests.exceptions.Timeout:
