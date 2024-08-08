@@ -6,6 +6,7 @@ dependencies = [
     "fastapi>=0.111.1",
     "requests>=2.32.3",
     "pyopenssl>=24.2.1",
+    "python-whois>=0.9.4",
 ]
 readme = "README.md"
 requires-python = ">= 3.8"
