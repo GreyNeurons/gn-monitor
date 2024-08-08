@@ -1,4 +1,4 @@
-from main import *
+from domain_check import *
 import pytest
 import datetime 
 
