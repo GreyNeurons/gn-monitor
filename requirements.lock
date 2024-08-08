@@ -18,6 +18,9 @@ anyio==4.4.0
 certifi==2024.7.4
     # via httpcore
     # via httpx
+    # via requests
+charset-normalizer==3.3.2
+    # via requests
 click==8.1.7
     # via typer
     # via uvicorn
@@ -41,6 +44,7 @@ idna==3.7
     # via anyio
     # via email-validator
     # via httpx
+    # via requests
 jinja2==3.1.4
     # via fastapi
 markdown-it-py==3.0.0
@@ -61,6 +65,7 @@ python-multipart==0.0.9
     # via fastapi
 pyyaml==6.0.1
     # via uvicorn
+requests==2.32.3
 rich==13.7.1
     # via typer
 shellingham==1.5.4
@@ -77,6 +82,8 @@ typing-extensions==4.12.2
     # via pydantic
     # via pydantic-core
     # via typer
+urllib3==2.2.2
+    # via requests
 uvicorn==0.30.3
     # via fastapi
 uvloop==0.19.0
