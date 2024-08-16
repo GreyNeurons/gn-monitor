@@ -4,11 +4,19 @@ import ssl
 from datetime import datetime
 from datetime import date
 
+<<<<<<< Updated upstream:src/lib/check_ssl.py
 # url = "https://www.labboozcafeandlodge.com/"
 # url = "https://www.google.com"
 url = "http://www.icicibank.com"
 # url = "https://abvz.com"
 # url = "https://expired.badssl.com"
+=======
+#url = "https://www.labboozcafeandlodge.com/"
+#url = "https://www.google.com"
+#url = "http://www.icicibank.com"
+#url = "https://abvz.com"
+#url = "https://expired.badssl.com"
+>>>>>>> Stashed changes:src/validateSSL.py
 
 isSSL = False
 try:
