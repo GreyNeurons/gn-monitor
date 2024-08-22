@@ -2,13 +2,17 @@ import datetime
 from lib.check_domain import get_domain_expiry_date
 
 
-def test_url():
-    url = "https://www.greyneuronsconsulting.com"  # Replace with your URL
+def test_expiry():
+    url = "https://www.greyneuronsconsulting.com"
+    expected_date = datetime.datetime(2025, 2, 10, 5, 17, 38)
+
     expiry_dates = get_domain_expiry_date(url)
-    print(expiry_dates)
-    if expiry_dates:
-        for date in expiry_dates:
-            print(f"Domain Expiry Date for {url}: {date}")
-            assert date == datetime.datetime(2025, 2, 10, 5, 17, 38)
-    else:
-        print("Could not retrieve domain expiry date.")
+    assert expiry_dates
+
+    for date in expiry_dates:
+        assert date == expected_date
+
+
+def test_no_expiry():
+    expiry_dates = get_domain_expiry_date("https://thisshouldnot.exist")
+    assert expiry_dates[0] is None
