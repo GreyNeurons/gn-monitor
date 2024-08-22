@@ -19,11 +19,15 @@ certifi==2024.7.4
     # via httpcore
     # via httpx
     # via requests
+cffi==1.17.0
+    # via cryptography
 charset-normalizer==3.3.2
     # via requests
 click==8.1.7
     # via typer
     # via uvicorn
+cryptography==43.0.0
+    # via pyopenssl
 dnspython==2.6.1
     # via email-validator
 email-validator==2.2.0
@@ -59,12 +63,15 @@ packaging==24.1
     # via pytest
 pluggy==1.5.0
     # via pytest
+pycparser==2.22
+    # via cffi
 pydantic==2.8.2
     # via fastapi
 pydantic-core==2.20.1
     # via pydantic
 pygments==2.18.0
     # via rich
+pyopenssl==24.2.1
 pytest==8.3.2
 python-dotenv==1.0.1
     # via uvicorn

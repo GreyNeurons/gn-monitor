@@ -5,6 +5,7 @@ description = "Get uptime and other insights about your website"
 dependencies = [
     "fastapi>=0.111.1",
     "requests>=2.32.3",
+    "pyopenssl>=24.2.1",
 ]
 readme = "README.md"
 requires-python = ">= 3.8"
