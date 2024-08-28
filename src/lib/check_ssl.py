@@ -4,6 +4,7 @@ import ssl
 from datetime import datetime
 from datetime import date
 
+
 def check_ssl(url):
     isNotify = False
     notifyText = ""
@@ -27,9 +28,9 @@ def check_ssl(url):
 
     if isSSL:
         # Strip off protocol from the URL
-        indx = url.find("//")
-        if indx != -1:
-            url = url[indx + 2 :]
+        # url is AnyUrl object, not a string
+        # So string manipulation not needed. Just get the host
+        url = url.host
 
         # Get SSL expiry date
         cert = ssl.get_server_certificate((url, 443))
@@ -44,8 +45,8 @@ def check_ssl(url):
         dtdiff = certdt - currdt
 
         # If SSL expiry date is less than 30 days away then send notification
-        if dtdiff.days < 65:
+        if dtdiff.days < 30:
             isNotify = True
-            notifyText = "SSL certificate will expire within 65 days."
+            notifyText = "SSL certificate will expire within 30 days."
 
     return isNotify, notifyText
