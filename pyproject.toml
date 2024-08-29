@@ -7,6 +7,9 @@ dependencies = [
     "requests>=2.32.3",
     "pyopenssl>=24.2.1",
     "python-whois>=0.9.4",
+    "sqlmodel>=0.0.21",
+    "psycopg2>=2.9.9",
+    "psycopg2-binary>=2.9.9",
 ]
 readme = "README.md"
 requires-python = ">= 3.8"
