@@ -1,13 +1,25 @@
-from pydantic import HttpUrl
 from fastapi import FastAPI
-from lib.check_access import access_url
-from lib.check_domain import get_domain_expiry_date
-from lib.check_ssl import check_ssl
+from pydantic import HttpUrl
+from sqlmodel import SQLModel, create_engine
+from .config import settings
+from .lib.check_access import access_url
+from .lib.check_domain import get_domain_expiry_date
+from .lib.check_ssl import check_ssl
+
+
+def create_db_and_tables():
+    engine = create_engine(settings.database_url)
+    SQLModel.metadata.create_all(engine)
 
 
 app = FastAPI()
 
 
+@app.on_event("startup")
+def on_startup():
+    create_db_and_tables()
+
+    
 @app.get("/")
 async def root():
     return {"message": "Welcome"}

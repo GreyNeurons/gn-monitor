@@ -71,9 +71,11 @@ pycparser==2.22
     # via cffi
 pydantic==2.8.2
     # via fastapi
+    # via pydantic-settings
     # via sqlmodel
 pydantic-core==2.20.1
     # via pydantic
+pydantic-settings==2.4.0
 pygments==2.18.0
     # via rich
 pyopenssl==24.2.1
@@ -81,6 +83,7 @@ pytest==8.3.2
 python-dateutil==2.9.0.post0
     # via python-whois
 python-dotenv==1.0.1
+    # via pydantic-settings
     # via uvicorn
 python-multipart==0.0.9
     # via fastapi
