@@ -28,9 +28,14 @@ def check_ssl(url):
 
     if isSSL:
         # Strip off protocol from the URL
-        # url is AnyUrl object, not a string
-        # So string manipulation not needed. Just get the host
-        url = url.host
+        try:
+            # url is AnyUrl object, not a string
+            # So string manipulation not needed. Just get the host
+            url = url.host
+        except AttributeError:
+            # This may be from the test where directly string
+            # is passed to this function
+            url = str(url).split('/')[2]
 
         # Get SSL expiry date
         cert = ssl.get_server_certificate((url, 443))
