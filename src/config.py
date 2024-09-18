@@ -1,12 +1,20 @@
+from pydantic import PostgresDsn
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    database_url: str
+    DATABASE_URL: PostgresDsn | None = None
     # How many days before expiry do we warn the user ?
-    days_before_expire: int = 65
+    DAYS_BEFORE_EXPIRE: int = 65
 
-    model_config = SettingsConfigDict(env_file=".env")
+    # Project Name. Useful for White labeling
+    PROJECT_NAME: str = "Monitor"
+    API_V1_STR: str = "/api/v1"
+
+    model_config = SettingsConfigDict(
+        # `.env.prod` takes priority over `.env`
+        env_file=('.env', '.env.prod')
+    )
 
 
 settings = Settings()

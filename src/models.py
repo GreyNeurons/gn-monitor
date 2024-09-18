@@ -1,12 +1,22 @@
 # Refer to https://github.com/fastapi/full-stack-fastapi-template/blob/master/backend/app/models.py
-
+import enum
 import uuid
+from datetime import datetime
 from pydantic import EmailStr
-from sqlmodel import Field, Relationship, SQLModel
+from sqlmodel import Column, Enum, Field, JSON, Relationship, SQLModel
+
+
+class Status(str, enum.Enum):
+    all_ok = "all_ok"
+
+
+class BaseModel(SQLModel):
+    created_at: datetime = Field(default=datetime.utcnow(), nullable=False)
+    last_edited: datetime = Field(default_factory=datetime.utcnow, nullable=False)
 
 
 # Shared properties
-class UserBase(SQLModel):
+class UserBase(BaseModel):
     email: EmailStr = Field(unique=True, index=True, max_length=255)
     is_active: bool = True
     is_superuser: bool = False
@@ -20,7 +30,7 @@ class User(UserBase, table=True):
 
 
 # Shared properties
-class UrlBase(SQLModel):
+class UrlBase(BaseModel):
     url: str = Field(min_length=5, max_length=255)
 
 
@@ -38,7 +48,16 @@ class UrlUpdate(UrlBase):
 class Url(UrlBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     url: str = Field(max_length=255)
-    owner_id: uuid.UUID = Field(
-        foreign_key="user.id", nullable=False, ondelete="CASCADE"
+    # owner_id: uuid.UUID = Field(
+    #     foreign_key="user.id", nullable=False, ondelete="CASCADE"
+    # )
+    owner_email: str = Field(
+        foreign_key="user.email", nullable=False, ondelete="CASCADE"
     )
     owner: User | None = Relationship(back_populates="urls")
+
+
+# Shared properties
+class UrlStatusBase(BaseModel):
+    status: Status = Field(sa_column=Column(Enum(Status)))
+    description: dict = Field(default_factory=dict, sa_column=Column(JSON))
