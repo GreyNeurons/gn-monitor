@@ -12,7 +12,8 @@ class Status(str, enum.Enum):
 
 class BaseModel(SQLModel):
     created_at: datetime = Field(default=datetime.utcnow(), nullable=False)
-    last_edited: datetime = Field(default_factory=datetime.utcnow, nullable=False)
+    last_edited: datetime = Field(default_factory=datetime.utcnow,
+                                  nullable=False)
 
 
 # Shared properties
@@ -26,7 +27,8 @@ class UserBase(BaseModel):
 # Database model, database table inferred from class name
 class User(UserBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
-    urls: list["Url"] = Relationship(back_populates="owner", cascade_delete=True)
+    urls: list["Url"] = Relationship(back_populates="owner",
+                                     cascade_delete=True)
 
 
 # Shared properties
@@ -36,12 +38,24 @@ class UrlBase(BaseModel):
 
 # Properties to receive on item creation
 class UrlCreate(UrlBase):
-    pass
+    owner_email: str  # Eventually this goes away ??
+    # pass
 
 
 # Properties to receive on item update
 class UrlUpdate(UrlBase):
     url: str
+
+
+# Properties to return via API, id is always required
+class UrlPublic(UrlBase):
+    id: uuid.UUID
+    # url: str
+
+
+class UrlsPublic(SQLModel):
+    data: list[UrlPublic]
+    count: int
 
 
 # Database model, database table inferred from class name
