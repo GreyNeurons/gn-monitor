@@ -1,13 +1,14 @@
 # TODO : refactor later like
 # full-stack-fastapi-template/backend/app/api/main.py
+import uuid
 from typing import Any
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from pydantic import HttpUrl
 from sqlmodel import select, Session
 from .lib.check_access import access_url
 from .lib.check_domain import get_domain_expiry_date
 from .lib.check_ssl import check_ssl
-from .models import User, UrlPublic, UrlsPublic, Url, UrlCreate
+from .models import User, UrlPublic, UrlsPublic, Url, UrlCreate, UrlUpdate
 from .db import engine
 
 
@@ -74,6 +75,23 @@ async def add_url(new_url: UrlCreate) -> Any:
     """
     with Session(engine) as session:
         url = Url.model_validate(new_url)
+        session.add(url)
+        session.commit()
+        session.refresh(url)
+        return url
+
+
+@api_router.put("/url/{id}", response_model=UrlPublic)
+async def update_url(id: uuid.UUID, url_in: UrlUpdate) -> Any:
+    """
+    Update the URL.
+    """
+    with Session(engine) as session:
+        url = session.get(Url, id)
+        if not url:
+            raise HTTPException(status_code=404, detail="Item not found")
+        update_dict = url_in.model_dump(exclude_unset=True)
+        url.sqlmodel_update(update_dict)
         session.add(url)
         session.commit()
         session.refresh(url)

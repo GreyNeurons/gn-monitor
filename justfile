@@ -1,5 +1,5 @@
 start-pgsql:
-	docker start gn-monitor-pgsql || docker run -d -v $(pwd)/.docker:/docker-entrypoint-initdb.d -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=PgPass -p 5432:5432 --name gn-monitor-pgsql postgres:16.2-alpine
+	docker start gn-monitor-pgsql || docker run -d -v $(pwd)/.docker:/docker-entrypoint-initdb.d -e POSTGRES_PASSWORD=PgPass -p 5432:5432 --name gn-monitor-pgsql postgres:16.2-alpine
 
 clean-pgsql:
 	@docker stop gn-monitor-pgsql || true

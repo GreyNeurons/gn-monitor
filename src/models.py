@@ -43,7 +43,8 @@ class UrlCreate(UrlBase):
 
 
 # Properties to receive on item update
-class UrlUpdate(UrlBase):
+class UrlUpdate(SQLModel):
+    owner_email: str  # Eventually this goes away ??
     url: str
 
 
