@@ -124,3 +124,5 @@ watchfiles==0.22.0
     # via uvicorn
 websockets==12.0
     # via uvicorn
+python-keycloak==4.6.2
+

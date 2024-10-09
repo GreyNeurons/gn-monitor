@@ -43,3 +43,38 @@ All tests **must** pass before commit
 Please run this before **every** commit
 
 * `just lint`
+
+
+## Keycloak related
+**Using Keycloak: A Quick Guide**
+
+1. **Ensure MySQL/PostgreSQL is Running**  
+   Before starting Keycloak, make sure the MySQL or PostgreSQL database that Keycloak is using is up and running.
+
+2. **Start Keycloak Server**  
+   Use the following command to start the Keycloak server:
+
+./kc.sh start --hostname-strict false --http-enabled true
+
+
+Access Keycloak at: [http://localhost:8080](http://localhost:8080)  
+Default credentials: `admin/admin`
+
+3. **Create a Realm**
+
+- Create a new realm named **gnc**.
+
+4. **Create a User in the GNC Realm**
+
+- Create a user within the **gnc** realm.
+- Set a username and password for the user.
+- Assign the **manage-users** and **manage-clients** roles to this user.
+
+*(Insert the image here)*
+
+- This user will be used in your `.env` file for authentication.
+
+5. **Verify User Access**
+
+- Log in to [http://localhost:8080/realms/gnc/console](http://localhost:8080/realms/gnc/console) using the user credentials you created to verify that they can log in and access the console.
+
