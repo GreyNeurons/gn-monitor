@@ -78,3 +78,13 @@ Default credentials: `admin/admin`
 
 - Log in to [http://localhost:8080/realms/gnc/console](http://localhost:8080/realms/gnc/console) using the user credentials you created to verify that they can log in and access the console.
 
+6. **Setup the client**
+- Under gnc domain , register your client and make a note of client_id and secret. You will neeed to provide this in the env
+
+7. **Env variables for KC to work**
+KEYCLOAK_URL="http://localhost:8080/"
+REALM_NAME="gnc"
+CLIENT_ID="<your client ID from step 6>"
+CLIENT_SECRET="<provide client secret from step 6>"
+ADMIN_USERNAME="<userID provided in step4>"
+ADMIN_PASSWORD="<password for the user created in step4>"
