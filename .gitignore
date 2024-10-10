@@ -6,5 +6,9 @@ dist/
 wheels/
 *.egg-info
 
+# don't commit .env file to git
+# use .env.example instead
+.env
+
 # venv
 .venv
