@@ -76,3 +76,22 @@ class Url(UrlBase, table=True):
 class UrlStatusBase(BaseModel):
     status: Status = Field(sa_column=Column(Enum(Status)))
     description: dict = Field(default_factory=dict, sa_column=Column(JSON))
+
+# Request models
+class UserCreateRequest(BaseModel):
+    username: str
+    password: str
+    first_name: str
+    last_name: str
+    email: str
+
+class SignInRequest(BaseModel):
+    username: str
+    password: str
+
+class ResetPasswordRequest(BaseModel):
+    user_id: str
+    new_password: str
+
+class LogOutRequest(BaseModel):
+    refresh_token: str
