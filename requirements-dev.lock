@@ -15,6 +15,8 @@ anyio==4.4.0
     # via httpx
     # via starlette
     # via watchfiles
+async-property==0.2.2
+    # via python-keycloak
 certifi==2024.7.4
     # via httpcore
     # via httpx
@@ -27,7 +29,10 @@ click==8.1.7
     # via typer
     # via uvicorn
 cryptography==43.0.0
+    # via jwcrypto
     # via pyopenssl
+deprecation==2.1.0
+    # via python-keycloak
 dnspython==2.6.1
     # via email-validator
 email-validator==2.2.0
@@ -44,8 +49,9 @@ httpcore==1.0.5
     # via httpx
 httptools==0.6.1
     # via uvicorn
-httpx==0.27.0
+httpx==0.26.0
     # via fastapi
+    # via python-keycloak
 idna==3.7
     # via anyio
     # via email-validator
@@ -55,6 +61,8 @@ iniconfig==2.0.0
     # via pytest
 jinja2==3.1.4
     # via fastapi
+jwcrypto==1.5.6
+    # via python-keycloak
 markdown-it-py==3.0.0
     # via rich
 markupsafe==2.1.5
@@ -62,6 +70,7 @@ markupsafe==2.1.5
 mdurl==0.1.2
     # via markdown-it-py
 packaging==24.1
+    # via deprecation
     # via pytest
 pluggy==1.5.0
     # via pytest
@@ -85,12 +94,17 @@ python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
     # via pydantic-settings
     # via uvicorn
+python-keycloak==4.6.2
 python-multipart==0.0.9
     # via fastapi
 python-whois==0.9.4
 pyyaml==6.0.1
     # via uvicorn
 requests==2.32.3
+    # via python-keycloak
+    # via requests-toolbelt
+requests-toolbelt==1.0.0
+    # via python-keycloak
 rich==13.7.1
     # via typer
 ruff==0.5.5
@@ -110,6 +124,7 @@ typer==0.12.3
     # via fastapi-cli
 typing-extensions==4.12.2
     # via fastapi
+    # via jwcrypto
     # via pydantic
     # via pydantic-core
     # via sqlalchemy
@@ -124,5 +139,3 @@ watchfiles==0.22.0
     # via uvicorn
 websockets==12.0
     # via uvicorn
-python-keycloak==4.6.2
-

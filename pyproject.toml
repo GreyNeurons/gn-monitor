@@ -12,6 +12,7 @@ dependencies = [
     "psycopg2-binary>=2.9.9",
     "python-dotenv>=1.0.1",
     "pydantic-settings>=2.4.0",
+    "python-keycloak>=4.6.2",
 ]
 readme = "README.md"
 requires-python = ">= 3.8"

@@ -11,9 +11,17 @@ class Settings(BaseSettings):
     PROJECT_NAME: str = "Monitor"
     API_V1_STR: str = "/api/v1"
 
+    # KeyCloak related settings
+    KEYCLOAK_URL: str | None = None
+    REALM_NAME: str | None = None
+    CLIENT_ID: str | None = None
+    CLIENT_SECRET: str | None = None
+    ADMIN_USERNAME: str | None = None
+    ADMIN_PASSWORD: str | None = None
+
     model_config = SettingsConfigDict(
         # `.env.prod` takes priority over `.env`
-        env_file=('.env', '.env.prod')
+        env_file=(".env", ".env.prod")
     )
 
 

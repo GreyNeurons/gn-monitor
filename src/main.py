@@ -2,7 +2,6 @@ from fastapi import FastAPI
 from .config import settings
 from .routes import api_router
 from .db import create_db_and_tables
-from lib.auth import *
 
 
 app = FastAPI(title=settings.PROJECT_NAME)

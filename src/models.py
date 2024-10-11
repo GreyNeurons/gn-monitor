@@ -12,8 +12,7 @@ class Status(str, enum.Enum):
 
 class BaseModel(SQLModel):
     created_at: datetime = Field(default=datetime.utcnow(), nullable=False)
-    last_edited: datetime = Field(default_factory=datetime.utcnow,
-                                  nullable=False)
+    last_edited: datetime = Field(default_factory=datetime.utcnow, nullable=False)
 
 
 # Shared properties
@@ -27,8 +26,7 @@ class UserBase(BaseModel):
 # Database model, database table inferred from class name
 class User(UserBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
-    urls: list["Url"] = Relationship(back_populates="owner",
-                                     cascade_delete=True)
+    urls: list["Url"] = Relationship(back_populates="owner", cascade_delete=True)
 
 
 # Shared properties
@@ -77,6 +75,7 @@ class UrlStatusBase(BaseModel):
     status: Status = Field(sa_column=Column(Enum(Status)))
     description: dict = Field(default_factory=dict, sa_column=Column(JSON))
 
+
 # Request models
 class UserCreateRequest(BaseModel):
     username: str
@@ -85,13 +84,16 @@ class UserCreateRequest(BaseModel):
     last_name: str
     email: str
 
+
 class SignInRequest(BaseModel):
     username: str
     password: str
 
+
 class ResetPasswordRequest(BaseModel):
     user_id: str
     new_password: str
+
 
 class LogOutRequest(BaseModel):
     refresh_token: str

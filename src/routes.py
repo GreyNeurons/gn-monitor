@@ -8,8 +8,21 @@ from sqlmodel import select, Session
 from .lib.check_access import access_url
 from .lib.check_domain import get_domain_expiry_date
 from .lib.check_ssl import check_ssl
-from .models import User, UrlPublic, UrlsPublic, Url, UrlCreate, UrlUpdate
+from .models import (
+    User,
+    UrlPublic,
+    UrlsPublic,
+    Url,
+    UrlCreate,
+    UrlUpdate,
+    UserCreateRequest,
+    SignInRequest,
+    ResetPasswordRequest,
+    LogOutRequest,
+)
 from .db import engine
+from .lib.auth import create_user, sign_in, get_user_roles, reset_password, log_out
+from keycloak import KeycloakError
 
 
 api_router = APIRouter()
@@ -44,7 +57,7 @@ async def url_reachable(url: HttpUrl):
 
 # After integrating auth, we do not need owner email
 # We get the user directly from the auth token
-@api_router.get("/urls", response_model=UrlsPublic)
+@api_router.get("/urls", response_model=UrlsPublic, summary="Get the list of URLs for the user", tags=["URL"])
 async def get_urls(owner_email: str, skip: int = 0, limit: int = 100) -> Any:
     """
     Get the URLs
@@ -67,7 +80,7 @@ async def get_urls(owner_email: str, skip: int = 0, limit: int = 100) -> Any:
     return UrlsPublic(data=urls, count=count)
 
 
-@api_router.post("/url", response_model=UrlPublic)
+@api_router.post("/url", response_model=UrlPublic, summary="Add URL for a user", tags=["URL"])
 # async def add_url(owner_email: str, new_url: UrlCreate) -> Any:
 async def add_url(new_url: UrlCreate) -> Any:
     """
@@ -81,7 +94,7 @@ async def add_url(new_url: UrlCreate) -> Any:
         return url
 
 
-@api_router.put("/url/{id}", response_model=UrlPublic)
+@api_router.put("/url/{id}", response_model=UrlPublic, summary="Update URL", tags=["URL"])
 async def update_url(id: uuid.UUID, url_in: UrlUpdate) -> Any:
     """
     Update the URL.
@@ -96,16 +109,24 @@ async def update_url(id: uuid.UUID, url_in: UrlUpdate) -> Any:
         session.commit()
         session.refresh(url)
         return url
-    
-@app.post("/create_user")
+
+
+@api_router.post("/create_user", summary="Create User", tags=["Authentication"])
 async def api_create_user(request: UserCreateRequest):
     try:
-        user_id = create_user(request.username, request.password, request.first_name, request.last_name, request.email)
+        user_id = create_user(
+            request.username,
+            request.password,
+            request.first_name,
+            request.last_name,
+            request.email,
+        )
         return {"user_id": user_id}
     except KeycloakError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@app.post("/sign_in")
+
+@api_router.post("/sign_in", summary="Sign In", tags=["Authentication"])
 async def api_sign_in(request: SignInRequest):
     try:
         token = sign_in(request.username, request.password)
@@ -113,7 +134,8 @@ async def api_sign_in(request: SignInRequest):
     except KeycloakError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@app.get("/get_user_roles/{user_id}")
+
+@api_router.get("/get_user_roles/{user_id}", summary="Get User Roles", tags=["Authentication"])
 async def api_get_user_roles(user_id: str):
     try:
         roles = get_user_roles(user_id)
@@ -121,7 +143,8 @@ async def api_get_user_roles(user_id: str):
     except KeycloakError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@app.post("/reset_password")
+
+@api_router.post("/reset_password", summary="Reset Password", tags=["Authentication"])
 async def api_reset_password(request: ResetPasswordRequest):
     try:
         reset_password(request.user_id, request.new_password)
@@ -129,11 +152,11 @@ async def api_reset_password(request: ResetPasswordRequest):
     except KeycloakError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@app.post("/log_out")
+
+@api_router.post("/log_out", summary="Log out", tags=["Authentication"])
 async def api_log_out(request: LogOutRequest):
     try:
         log_out(request.refresh_token)
         return {"detail": "User logged out successfully"}
     except KeycloakError as e:
         raise HTTPException(status_code=400, detail=str(e))
-

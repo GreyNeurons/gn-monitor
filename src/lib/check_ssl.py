@@ -35,7 +35,7 @@ def check_ssl(url):
         except AttributeError:
             # This may be from the test where directly string
             # is passed to this function
-            url = str(url).split('/')[2]
+            url = str(url).split("/")[2]
 
         # Get SSL expiry date
         cert = ssl.get_server_certificate((url, 443))
