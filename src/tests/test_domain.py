@@ -1,4 +1,4 @@
-import datetime 
+import datetime
 from lib.check_domain import get_domain_expiry_date
 
 
