@@ -1,5 +1,5 @@
 from keycloak import KeycloakAdmin, KeycloakOpenID, KeycloakError
-from ..config import settings
+from src.config import settings
 
 
 keycloak_url = settings.KEYCLOAK_URL
@@ -8,6 +8,15 @@ client_id = settings.CLIENT_ID
 client_secret_key = settings.CLIENT_SECRET
 admin_username = settings.ADMIN_USERNAME
 admin_password = settings.ADMIN_PASSWORD
+
+print(f"keycloack_url :{keycloak_url}\n")
+print(f"realm_name :{realm_name}\n")
+print(f"client_id:{client_id}\n")
+print(f"client_secret_key :{client_secret_key}\n")
+print(f"admin_username :{admin_username}\n")
+print(f"admin_password :{admin_password}\n")
+
+
 
 # Initialize Keycloak Admin client (for administrative tasks)
 try:
@@ -68,7 +77,7 @@ def sign_in(username, password):
         print(f"Access Token: {token['access_token']}")
         return token
     except KeycloakError as e:
-        print(f"Error signing in user {username}: {e}")
+        print(f"!!!!Error signing in user {username}: {e}")
         raise
 
 
@@ -92,7 +101,7 @@ def get_user_roles(user_id):
 
         return {"realm_roles": realm_roles, "client_roles": client_roles}
     except KeycloakError as e:
-        print(f"Error retrieving roles for user {user_id}: {e}")
+        print(f"!!!Error retrieving roles for user {user_id}: {e}")
         raise
 
 
@@ -102,7 +111,7 @@ def reset_password(user_id, new_password):
         keycloak_admin.set_user_password(user_id, new_password, temporary=False)
         print(f"Password for user {user_id} has been reset.")
     except KeycloakError as e:
-        print(f"Error resetting password for user {user_id}: {e}")
+        print(f"!!!!Error resetting password for user {user_id}: {e}")
         raise
 
 
@@ -113,26 +122,42 @@ def log_out(refresh_token):
         print("User logged out.")
 
     except KeycloakError as e:
-        print(f"Error logging out user: {e}")
+        print(f"!!!Error logging out user: {e}")
+        raise
+
+# Function to delete a user
+def delete_user(user_id):
+    try:
+        keycloak_admin.delete_user(user_id)
+        print("User deleted successfully.")
+
+    except KeycloakError as e:
+        print(f"!!!Error deleting user: {e}")
         raise
 
 
 # Example usage
 if __name__ == "__main__":
+    
     # Sign up a new user
     user_id = create_user(
         "new_user1", "password123", "John", "Doe", "john.doe1@example.com"
     )
+    
 
     # Sign in the user
-    token = sign_in("new_user", "password123")
+    token = sign_in("new_user1", "password123")
 
     # Get roles associated with the user
-    user_id = keycloak_admin.get_user_id("new_user")
+    user_id = keycloak_admin.get_user_id("new_user1")
     roles = get_user_roles(user_id)
 
     # Reset the user's password
-    # reset_password(user_id, "newpassword123")
+    reset_password(user_id, "newpassword123")
 
     # Log out the user
-    # log_out(token['refresh_token'])
+    log_out(token['refresh_token'])
+
+    # Delete the user created earlier
+    user_id = keycloak_admin.get_user_id("new_user1")
+    keycloak_admin.delete_user(user_id)
